@@ -34,6 +34,8 @@ Route::get('/', function (Request $request) {
     return view('theme::' . config('v2board.frontend_theme', 'v2board') . '.dashboard', $renderParams);
 });
 
+Route::get('/billing', 'Gateway\MomoController@index')->name('billing');
+
 Route::get('/' . config('v2board.frontend_admin_path', 'admin'), function () {
     return view('admin', [
         'title' => config('v2board.app_name', 'V2Board'),
