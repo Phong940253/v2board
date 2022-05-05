@@ -249,11 +249,11 @@ window.settings.i18n['vi-VN'] = {
     '对您当前的订阅进行续费': 'Gia hạn gói đăng ký hiện tại của bạn',
     '对您当前的订阅进行购买': 'Thực hiện mua gói mới',
     '捷径': 'Lối tắt',
-    '不会使用，查看使用教程': '不会使用，查看使用教程',
-    '使用支持扫码的客户端进行订阅': '使用支持扫码的客户端进行订阅',
-    '扫描二维码订阅': '扫描二维码订阅',
-    '续费': '续费',
-    '购买': '购买',
+    '不会使用，查看使用教程': 'Không sử dụng? Hãy xem hướng dẫn',
+    '使用支持扫码的客户端进行订阅': 'Sử dụng ứng dụng khách hỗ trợ quét mã để đăng ký',
+    '扫描二维码订阅': 'Quét mã QR để đăng ký',
+    '续费': 'Làm mới',
+    '购买': 'Mua',
     '查看教程': 'Xem hướng dẫn',
     '注意': 'Chắc chắn?',
     '你还有未完成的订单，购买前需要先进行取消，确定取消先前的订单吗？': 'Bạn vẫn còn đơn đặt hàng chưa hoàn thành. Bạn cần hủy trước khi mua. Bạn có chắc chắn muốn hủy đơn đặt hàng trước đó không?',
@@ -266,4 +266,5 @@ window.settings.i18n['vi-VN'] = {
     '一次性': 'Dùng một lần',
     '遇到问题': 'Gặp sự cố',
     '遇到问题可以通过工单与我们沟通': 'Nếu bạn gặp sự cố, bạn có thể liên lạc với tôi thông qua Ticket',
+    '查看使用教程': 'Xem hướng dẫn'
 };

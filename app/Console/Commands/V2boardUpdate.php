@@ -42,14 +42,14 @@ class V2boardUpdate extends Command
         DB::connection()->getPdo();
         $file = \File::get(base_path() . '/database/update.sql');
         if (!$file) {
-            abort(500, '数据库文件不存在');
+            abort(500, 'Database file does not exist');
         }
         $sql = str_replace("\n", "", $file);
         $sql = preg_split("/;/", $sql);
         if (!is_array($sql)) {
-            abort(500, '数据库文件格式有误');
+            abort(500, 'The database file is in the wrong format');
         }
-        $this->info('正在导入数据库请稍等...');
+        $this->info('Importing database please wait...');
         foreach ($sql as $item) {
             if (!$item) continue;
             try {
@@ -57,6 +57,6 @@ class V2boardUpdate extends Command
             } catch (\Exception $e) {
             }
         }
-        $this->info('更新完毕，请重新启动队列服务。');
+        $this->info('After the update is complete, please restart the queue service.');
     }
 }
