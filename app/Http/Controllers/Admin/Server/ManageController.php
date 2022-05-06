@@ -29,7 +29,7 @@ class ManageController extends Controller
                 case 'shadowsocks':
                     if (!ServerShadowsocks::find($v['value'])->update(['sort' => $k + 1])) {
                         DB::rollBack();
-                        abort(500, '保存失败');
+                        abort(500, 'Lưu thất bại');
                     }
                     break;
                 case 'v2ray':

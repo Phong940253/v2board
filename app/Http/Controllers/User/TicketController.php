@@ -193,6 +193,6 @@ class TicketController extends Controller
     private function sendNotify(Ticket $ticket, string $message)
     {
         $telegramService = new TelegramService();
-        $telegramService->sendMessageWithAdmin("📮工单提醒 #{$ticket->id}\n———————————————\n主题：\n`{$ticket->subject}`\n内容：\n`{$message}`", true);
+        $telegramService->sendMessageWithAdmin("📮Ticket notify #{$ticket->id}\n———————————————\nTopic：\n`{$ticket->subject}`\nMessage：\n`{$message}`", true);
     }
 }
