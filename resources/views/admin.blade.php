@@ -55,7 +55,7 @@
         if (googleTranslateElement) return; //var being non-empty means element already created
 
         //store Google Translate Element in our var
-        googleTranslateElement = new google.translate.TranslateElement({pageLanguage: 'vi', includedLanguages: 'en,ko,ja,id,ms,th,vi,zh-CN,zh-TW', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL},'google_translate_element');
+        googleTranslateElement = new google.translate.TranslateElement({pageLanguage: 'vi', includedLanguages: 'en,ko,ja,vi', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL},'google_translate_element');
 
 //----- cut -----
 
