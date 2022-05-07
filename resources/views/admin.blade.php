@@ -42,6 +42,25 @@
 
     gtag('config', 'G-P1E9Z5LRRK');
 </script>
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- Load translate script from translate.google.cn -->
+
+<script type="text/javascript" src="https://translate.google.cn/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+    var googleTranslateElement; //global var for Google Translate Element
+
+    function googleTranslateElementInit() {
+
+        if (googleTranslateElement) return; //var being non-empty means element already created
+
+        //store Google Translate Element in our var
+        googleTranslateElement = new google.translate.TranslateElement({pageLanguage: 'vi', includedLanguages: 'en,ko,ja,id,ms,th,vi,zh-CN,zh-TW', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL},'google_translate_element');
+
+//----- cut -----
+
+    }
+</script>
 </body>
 
 </html>
