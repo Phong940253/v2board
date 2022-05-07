@@ -12,14 +12,14 @@
                         </thead>
                         <tbody>
                         <tr style="padding:40px 40px 0 40px;display:table-cell">
-                            <td style="font-size:24px;line-height:1.5;color:#000;margin-top:40px">邮箱验证码</td>
+                            <td style="font-size:24px;line-height:1.5;color:#000;margin-top:40px">Mã xác minh e-mail</td>
                         </tr>
                         <tr>
                             <td style="font-size:14px;color:#333;padding:24px 40px 0 40px">
-                                尊敬的用户您好！
+                                Người dùng thân mến!
                                 <br />
                                 <br />
-                                您的验证码是：{{$code}}，请在 5 分钟内进行验证。如果该验证码不为您本人申请，请无视。
+                                Mã xác minh của bạn là: {{$code}}, vui lòng xác minh trong vòng 5 phút. Nếu mã xác minh không dành cho bạn, vui lòng bỏ qua nó.
                             </td>
                         </tr>
                         <tr style="padding:40px;display:table-cell">
@@ -31,7 +31,7 @@
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tbody>
                         <tr>
-                            <td style="padding:20px 40px;font-size:12px;color:#999;line-height:20px;background:#f7f7f7"><a href="{{$url}}" style="font-size:14px;color:#929292">返回{{$name}}</a></td>
+                            <td style="padding:20px 40px;font-size:12px;color:#999;line-height:20px;background:#f7f7f7"><a href="{{$url}}" style="font-size:14px;color:#929292">Quay lại {{$name}}</a></td>
                         </tr>
                         </tbody>
                     </table>

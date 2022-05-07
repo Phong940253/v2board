@@ -12,14 +12,14 @@
                         </thead>
                         <tbody>
                         <tr style="padding:40px 40px 0 40px;display:table-cell">
-                            <td style="font-size:24px;line-height:1.5;color:#000;margin-top:40px">到期通知</td>
+                            <td style="font-size:24px;line-height:1.5;color:#000;margin-top:40px">Thông báo hết hạn</td>
                         </tr>
                         <tr>
                             <td style="font-size:14px;color:#333;padding:24px 40px 0 40px">
-                                尊敬的用户您好！
+                                Xin chào người dùng thân mến！
                                 <br />
                                 <br />
-                                你的服务将在24小时内到期。为了不造成使用上的影响请尽快续费。如果你已续费请忽略此邮件。
+                                Dịch vụ của bạn sẽ hết hạn trong vòng 24 giờ. Vui lòng gia hạn càng sớm càng tốt để không ảnh hưởng đến quá trình sử dụng. Nếu bạn đã gia hạn, vui lòng bỏ qua email này.
                             </td>
                         </tr>
                         <tr style="padding:40px;display:table-cell">
@@ -31,7 +31,7 @@
                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tbody>
                         <tr>
-                            <td style="padding:20px 40px;font-size:12px;color:#999;line-height:20px;background:#f7f7f7"><a href="{{$url}}" style="font-size:14px;color:#929292">返回{{$name}}</a></td>
+                            <td style="padding:20px 40px;font-size:12px;color:#999;line-height:20px;background:#f7f7f7"><a href="{{$url}}" style="font-size:14px;color:#929292">Quay lại {{$name}}</a></td>
                         </tr>
                         </tbody>
                     </table>
