@@ -17,10 +17,6 @@ window.settings = {
   crisp_id: '',
   i18n: [
       'vi-VN',
-    'zh-CN',
     'en-US',
-    'ja-JP',
-    'ko-KR',
-    'zh-TW'
   ]
 }
