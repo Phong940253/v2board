@@ -12,7 +12,7 @@ class GetLatestUrl extends Telegram {
     public function handle($message, $match = []) {
         $telegramService = $this->telegramService;
         $text = sprintf(
-            "%s的最新网址是：%s",
+            "%s URL mới nhất là: %s",
             config('v2board.app_name', 'V2Board'),
             config('v2board.app_url')
         );

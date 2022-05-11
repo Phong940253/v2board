@@ -33,6 +33,6 @@ class Bind extends Telegram {
             abort(500, '设置失败');
         }
         $telegramService = $this->telegramService;
-        $telegramService->sendMessage($message->chat_id, '绑定成功');
+        $telegramService->sendMessage($message->chat_id, 'Liên kết thành công');
     }
 }

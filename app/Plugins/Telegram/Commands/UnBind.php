@@ -14,13 +14,13 @@ class UnBind extends Telegram {
         $user = User::where('telegram_id', $message->chat_id)->first();
         $telegramService = $this->telegramService;
         if (!$user) {
-            $telegramService->sendMessage($message->chat_id, '没有查询到您的用户信息，请先绑定账号', 'markdown');
+            $telegramService->sendMessage($message->chat_id, 'Thông tin người dùng của bạn chưa được truy vấn, trước tiên hãy liên kết tài khoản của bạn', 'markdown');
             return;
         }
         $user->telegram_id = NULL;
         if (!$user->save()) {
             abort(500, '解绑失败');
         }
-        $telegramService->sendMessage($message->chat_id, '解绑成功', 'markdown');
+        $telegramService->sendMessage($message->chat_id, 'Hủy liên kết thành công', 'markdown');
     }
 }
