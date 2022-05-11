@@ -87,8 +87,7 @@ class StatController extends Controller
         ]);
     }
 
-    public function getServerLastRank()
-    {
+    public function getServerLastRankArray() {
         $servers = [
             'shadowsocks' => ServerShadowsocks::where('parent_id', null)->get()->toArray(),
             'vmess' => ServerV2ray::where('parent_id', null)->get()->toArray(),
@@ -97,12 +96,12 @@ class StatController extends Controller
         $startAt = strtotime('-1 day', strtotime(date('Y-m-d')));
         $endAt = strtotime(date('Y-m-d'));
         $statistics = StatServer::select([
-                'server_id',
-                'server_type',
-                'u',
-                'd',
-                DB::raw('(u+d) as total')
-            ])
+            'server_id',
+            'server_type',
+            'u',
+            'd',
+            DB::raw('(u+d) as total')
+        ])
             ->where('record_at', '>=', $startAt)
             ->where('record_at', '<', $endAt)
             ->where('record_type', 'd')
@@ -119,6 +118,12 @@ class StatController extends Controller
             $statistics[$k]['total'] = $statistics[$k]['total'] / 1073741824;
         }
         array_multisort(array_column($statistics, 'total'), SORT_DESC, $statistics);
+        return $statistics;
+    }
+
+    public function getServerLastRank()
+    {
+        $statistics = $this->getServerLastRankArray();
         return response([
             'data' => $statistics
         ]);
