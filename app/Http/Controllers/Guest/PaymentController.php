@@ -39,7 +39,7 @@ class PaymentController extends Controller
         }
         $telegramService = new TelegramService();
         $message = sprintf(
-            "💰Nhận tiền thành công\n———————————————\n订Mã đơn hàng：%s",
+            "💰Nhận tiền thành công %s\n———————————————\nMã đơn hàng：%s",
             $order->total_amount / 100,
             $order->trade_no
         );
