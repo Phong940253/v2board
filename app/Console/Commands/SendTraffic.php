@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\StatServer;
+use App\Services\TelegramService;
 use Illuminate\Console\Command;
 use App\Http\Controllers\Admin\StatController;
 
@@ -42,19 +43,23 @@ class SendTraffic extends Command
         $this->getStatServer();
         return 0;
     }
-    public function escapeJsonString($value) {
-        $escapers = array("\'");
-        $replacements = array("\\/");
-        $result = str_replace($escapers, $replacements, $value);
-        return $result;
-    }
 
     public function getStatServer() {
         $statcontroller = new StatController;
         $data = $statcontroller->getServerLastRankArray();
+        $result = "🚥 Báo cáo dung lượng VPN sử dụng hôm qua\n🌞 Powered By: Nguyễn Văn Phong\n🌞 Website: https://phong940253.tk\n";
         if ($data) {
-            foreach ($data as $row)
-            $this->info($row['server_id']);
+            $telegramService = new TelegramService();
+            foreach ($data as $row) {
+                if (array_key_exists('server_name', $row)) {
+                    $up_format = number_format($row['u'] / pow(1024, 3), 2);
+                    $down_format = number_format($row['d'] / pow(1024, 3), 2);
+                    $total_format = number_format($row['total'], 2);
+                    $result .= "{$row['server_name']}: Tải lên {$up_format}Gb, Tải xuống {$down_format}Gb, Tất cẳ {$total_format}Gb\n";
+                }
+            }
+            $telegramService->sendMessage('-690634921' ,$result);
+//            $this->info($result);
         }
     }
 }
