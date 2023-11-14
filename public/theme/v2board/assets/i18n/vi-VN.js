@@ -11,7 +11,7 @@ window.settings.i18n['vi-VN'] = {
   '待支付': 'Đợi Thanh Toán',
   '开通中': 'Đang xử lý',
   '已取消': 'Đã Hủy',
-  '已完成': 'Thực Hiện',
+  '已完成': 'Hoàn thành',
   '已折抵': 'Quy Đổi',
   '待确认': 'Đợi Xác Nhận',
   '发放中': 'Đang Xác Nhận',
@@ -84,7 +84,7 @@ window.settings.i18n['vi-VN'] = {
   '订单系统正在进行处理，请稍等1-3分钟。': 'Hệ thống đang xử lý đơn hàng, vui lòng đợi 1-3p.',
   '已取消': '已取消',
   '订单由于超时支付已被取消。': 'Do quá giờ nên đã hủy đơn hàng.',
-  '已完成': '已完成',
+  '已完成': 'Hoàn thành',
   '订单已支付并开通。': 'Đơn hàng đã thanh toán và mở.',
   '选择订阅': 'Chọn gói',
   '立即订阅': 'Mua gói ngay',
@@ -273,5 +273,8 @@ window.settings.i18n['vi-VN'] = {
   '当前剩余佣金': 'Hoa hồng còn lại hiện tại',
   '三级分销比例': 'Tỷ lệ phân phối cấp 3',
   '累计获得佣金': 'Tổng hoa hồng nhận được',
-  '您邀请的用户再次邀请用户将按照订单金额乘以分销等级的比例进行分成。': 'Người dùng bạn mời hoặc người dùng mời lại bạn sẽ được chia theo số lượng đơn hàng nhân với mức độ phân phối.'
+  '您邀请的用户再次邀请用户将按照订单金额乘以分销等级的比例进行分成。': 'Người dùng bạn mời hoặc người dùng mời lại bạn sẽ được chia theo số lượng đơn hàng nhân với mức độ phân phối.',
+  '查看使用教程': 'Xem hướng dẫn sử dụng',
+  '发放时间': 'Thời gian phát hành',
+  '当你的订阅地址或账户发生泄漏被他人滥用时，可以在此重置订阅信息。避免带来不必要的损失。': 'Khi địa chỉ đăng ký hoặc tài khoản của bạn bị tiết lộ và bị lạm dụng, bạn có thể đặt lại thông tin đăng ký ở đây. Tránh gây ra thiệt hại không cần thiết.',
 };
