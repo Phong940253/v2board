@@ -95,7 +95,7 @@ window.settings.i18n['vi-VN'] = {
   '验证': 'Xác minh',
   '订单总额': 'Tổng tiền đơn hàng',
   '下单': 'Đặt hàng',
-  '总计': '总计',
+  '总计': 'Tổng',
   '变更订阅会导致当前订阅被新订阅覆盖，请注意。': 'Việc thay đổi gói dịch vụ sẽ thay thế gói hiện tại bằng gói mới, xin lưu ý.',
   '该订阅无法续费': 'Gói này không thể gia hạn',
   '选择其他订阅': 'Chọn gói dịch vụ khác',
