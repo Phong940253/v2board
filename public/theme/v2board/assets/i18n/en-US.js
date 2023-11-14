@@ -141,7 +141,7 @@ window.settings.i18n['en-US'] = {
   '更多操作': 'Action',
   '复制成功': 'Copied successfully',
   '复制链接': '复制链接',
-  '该订阅长期有效': '该订阅长期有效',
+  '该订阅长期有效': 'This subscription is valid for a long time',
   '已过期': '已过期',
   '已用 {used} / 总计 {total}': '已用 {used} / 总计 {total}',
   '重置订阅信息': '重置订阅信息',
