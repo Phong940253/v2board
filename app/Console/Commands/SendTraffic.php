@@ -58,7 +58,7 @@ class SendTraffic extends Command
                     $result .= "{$row['server_name']}: Tải lên {$up_format}Gb, Tải xuống {$down_format}Gb, Tất cẳ {$total_format}Gb\n";
                 }
             }
-            $telegramService->sendMessage('-690634921' ,$result);
+            $telegramService->sendMessage('-1001712589741' ,$result);
 //            $this->info($result);
         }
     }
