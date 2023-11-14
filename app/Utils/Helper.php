@@ -2,13 +2,18 @@
 
 namespace App\Utils;
 
-use App\Models\ServerV2ray;
-use App\Models\ServerShadowsocks;
-use App\Models\ServerTrojan;
-use App\Models\User;
-
 class Helper
 {
+    public static function uuidToBase64($uuid, $length)
+    {
+        return base64_encode(substr($uuid, 0, $length));
+    }
+
+    public static function getServerKey($timestamp, $length)
+    {
+        return base64_encode(substr(md5($timestamp), 0, $length));
+    }
+
     public static function guid($format = false)
     {
         if (function_exists('com_create_guid') === true) {
@@ -25,8 +30,8 @@ class Helper
 
     public static function generateOrderNo(): string
     {
-        $randomChar = rand(10000, 99999);
-        return date('YmdHms') . $randomChar;
+        $randomChar = mt_rand(10000, 99999);
+        return date('YmdHms') . substr(microtime(), 2, 6) . $randomChar;
     }
 
     public static function exchange($from, $to)
@@ -103,18 +108,22 @@ class Helper
         }
     }
 
-    public static function getSubscribeHost()
+    public static function getSubscribeUrl($path)
     {
-        $subscribeUrl = config('v2board.app_url');
         $subscribeUrls = explode(',', config('v2board.subscribe_url'));
-        if ($subscribeUrls && $subscribeUrls[0]) {
-            $subscribeUrl = $subscribeUrls[rand(0, count($subscribeUrls) - 1)];
-        }
-        return $subscribeUrl;
+        $subscribeUrl = $subscribeUrls[rand(0, count($subscribeUrls) - 1)];
+        if ($subscribeUrl) return $subscribeUrl . $path;
+        return url($path);
     }
 
     public static function randomPort($range) {
         $portRange = explode('-', $range);
         return rand($portRange[0], $portRange[1]);
+    }
+
+    public static function base64EncodeUrlSafe($data)
+    {
+        $encoded = base64_encode($data);
+        return str_replace(['+', '/', '='], ['-', '_', ''], $encoded);
     }
 }

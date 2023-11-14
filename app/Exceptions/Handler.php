@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Arr;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Facade\Ignition\Exceptions\ViewException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +53,25 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof ViewException) {
+            abort(500, "主题渲染失败。如更新主题，参数可能发生变化请重新配置主题后再试。");
+        }
         return parent::render($request, $exception);
+    }
+
+
+    protected function convertExceptionToArray(Throwable $e)
+    {
+        return config('app.debug') ? [
+            'message' => $e->getMessage(),
+            'exception' => get_class($e),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => collect($e->getTrace())->map(function ($trace) {
+                return Arr::except($trace, ['args']);
+            })->all(),
+        ] : [
+            'message' => $this->isHttpException($e) ? $e->getMessage() : __("Uh-oh, we've had some problems, we're working on it."),
+        ];
     }
 }

@@ -57,6 +57,7 @@ class V2boardUpdate extends Command
             } catch (\Exception $e) {
             }
         }
+        \Artisan::call('horizon:terminate');
         $this->info('After the update is complete, please restart the queue service.');
     }
 }

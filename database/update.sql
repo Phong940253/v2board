@@ -107,17 +107,6 @@ CREATE TABLE `v2_coupon` (
 ALTER TABLE `v2_order`
 ADD `discount_amount` int(11) NULL AFTER `total_amount`;
 
-CREATE TABLE `v2_tutorial` (
-  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `title` varchar(255) COLLATE 'utf8mb4_general_ci' NOT NULL,
-  `description` varchar(255) COLLATE 'utf8mb4_general_ci' NOT NULL,
-  `icon` varchar(255) COLLATE 'utf8mb4_general_ci' NOT NULL,
-  `steps` text NULL,
-  `show` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL
-);
-
 ALTER TABLE `v2_server_log`
 CHANGE `rate` `rate` decimal(10,2) NOT NULL AFTER `d`;
 
@@ -375,20 +364,6 @@ ALTER TABLE `v2_stat_server`
 ADD INDEX `record_at` (`record_at`),
 ADD INDEX `server_id` (`server_id`);
 
-CREATE TABLE `v2_stat_order` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `order_count` int(11) NOT NULL COMMENT '订单数量',
-  `order_amount` int(11) NOT NULL COMMENT '订单合计',
-  `commission_count` int(11) NOT NULL,
-  `commission_amount` int(11) NOT NULL COMMENT '佣金合计',
-  `record_type` char(1) NOT NULL,
-  `record_at` int(11) NOT NULL,
-  `created_at` int(11) NOT NULL,
-  `updated_at` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `record_at` (`record_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单统计';
-
 ALTER TABLE `v2_user`
 DROP `enable`;
 
@@ -569,3 +544,183 @@ DROP `settings`;
 
 ALTER TABLE `v2_ticket`
 DROP `last_reply_user_id`;
+
+ALTER TABLE `v2_server_shadowsocks`
+    ADD `obfs` char(11) NULL AFTER `cipher`,
+ADD `obfs_settings` varchar(255) NULL AFTER `obfs`;
+
+ALTER TABLE `v2_plan`
+    CHANGE `name` `name` varchar(255) COLLATE 'utf8mb4_general_ci' NOT NULL AFTER `transfer_enable`,
+    CHANGE `content` `content` text COLLATE 'utf8mb4_general_ci' NULL AFTER `renew`;
+
+ALTER TABLE `v2_mail_log`
+    COLLATE 'utf8mb4_general_ci';
+
+ALTER TABLE `v2_mail_log`
+    CHANGE `email` `email` varchar(64) NOT NULL AFTER `id`,
+    CHANGE `subject` `subject` varchar(255) NOT NULL AFTER `email`,
+    CHANGE `template_name` `template_name` varchar(255) NOT NULL AFTER `subject`,
+    CHANGE `error` `error` text NULL AFTER `template_name`;
+
+ALTER TABLE `v2_user`
+    ADD `speed_limit` int(11) NULL AFTER `plan_id`;
+
+ALTER TABLE `v2_plan`
+    ADD `speed_limit` int(11) NULL AFTER `transfer_enable`;
+ALTER TABLE `v2_server_v2ray`
+    CHANGE `port` `port` varchar(11) COLLATE 'utf8_general_ci' NOT NULL AFTER `host`;
+ALTER TABLE `v2_server_shadowsocks`
+    CHANGE `port` `port` varchar(11) NOT NULL AFTER `host`;
+ALTER TABLE `v2_server_trojan`
+    CHANGE `port` `port` varchar(11) NOT NULL COMMENT '连接端口' AFTER `host`;
+
+ALTER TABLE `v2_server_shadowsocks`
+    ADD `route_id` varchar(255) COLLATE 'utf8mb4_general_ci' NULL AFTER `group_id`;
+
+ALTER TABLE `v2_server_trojan`
+    ADD `route_id` varchar(255) COLLATE 'utf8mb4_general_ci' NULL AFTER `group_id`;
+
+ALTER TABLE `v2_server_v2ray`
+    COLLATE 'utf8mb4_general_ci';
+
+ALTER TABLE `v2_server_v2ray`
+    CHANGE `group_id` `group_id` varchar(255) NOT NULL AFTER `id`,
+    CHANGE `route_id` `route_id` varchar(255) NULL AFTER `group_id`,
+    CHANGE `host` `host` varchar(255) NOT NULL AFTER `parent_id`,
+    CHANGE `port` `port` varchar(11) NOT NULL AFTER `host`,
+    CHANGE `tags` `tags` varchar(255) NULL AFTER `tls`,
+    CHANGE `rate` `rate` varchar(11) NOT NULL AFTER `tags`,
+    CHANGE `network` `network` text NOT NULL AFTER `rate`,
+    CHANGE `rules` `rules` text NULL AFTER `network`,
+    CHANGE `networkSettings` `networkSettings` text NULL AFTER `rules`,
+    CHANGE `tlsSettings` `tlsSettings` text NULL AFTER `networkSettings`,
+    CHANGE `ruleSettings` `ruleSettings` text NULL AFTER `tlsSettings`,
+    CHANGE `dnsSettings` `dnsSettings` text NULL AFTER `ruleSettings`;
+
+ALTER TABLE `v2_server_v2ray`
+    ADD `route_id` varchar(255) COLLATE 'utf8mb4_general_ci' NULL AFTER `group_id`;
+
+
+CREATE TABLE `v2_server_route` (
+                                   `id` int(11) NOT NULL AUTO_INCREMENT,
+                                   `remarks` varchar(255) NOT NULL,
+                                   `match` varchar(255) NOT NULL,
+                                   `action` varchar(11) NOT NULL,
+                                   `action_value` varchar(255) DEFAULT NULL,
+                                   `created_at` int(11) NOT NULL,
+                                   `updated_at` int(11) NOT NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `v2_server_route`
+    CHANGE `match` `match` text COLLATE 'utf8mb4_general_ci' NOT NULL AFTER `remarks`;
+
+ALTER TABLE `v2_order`
+    ADD UNIQUE `trade_no` (`trade_no`);
+
+ALTER TABLE `v2_plan`
+    CHANGE `content` `content` text COLLATE 'utf8mb4_general_ci' NULL AFTER `renew`;
+
+ALTER TABLE `v2_plan`
+    COLLATE 'utf8mb4_general_ci';
+
+ALTER TABLE `v2_server_v2ray`
+    RENAME TO `v2_server_vmess`;
+
+ALTER TABLE `v2_server_vmess`
+    CHANGE `network` `network` varchar(11) COLLATE 'utf8mb4_general_ci' NOT NULL AFTER `rate`;
+
+DROP TABLE IF EXISTS `v2_server_hysteria`;
+CREATE TABLE `v2_server_hysteria` (
+                                      `id` int(11) NOT NULL AUTO_INCREMENT,
+                                      `group_id` varchar(255) NOT NULL,
+                                      `route_id` varchar(255) DEFAULT NULL,
+                                      `name` varchar(255) NOT NULL,
+                                      `parent_id` int(11) DEFAULT NULL,
+                                      `host` varchar(255) NOT NULL,
+                                      `port` varchar(11) NOT NULL,
+                                      `server_port` int(11) NOT NULL,
+                                      `tags` varchar(255) DEFAULT NULL,
+                                      `rate` varchar(11) NOT NULL,
+                                      `show` tinyint(1) NOT NULL DEFAULT '0',
+                                      `sort` int(11) DEFAULT NULL,
+                                      `up_mbps` int(11) NOT NULL,
+                                      `down_mbps` int(11) NOT NULL,
+                                      `server_name` varchar(64) DEFAULT NULL,
+                                      `insecure` tinyint(1) NOT NULL DEFAULT '0',
+                                      `created_at` int(11) NOT NULL,
+                                      `updated_at` int(11) NOT NULL,
+                                      PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `v2_plan`
+    ADD `capacity_limit` int(11) NULL AFTER `reset_traffic_method`;
+
+ALTER TABLE `v2_stat_order`
+    CHANGE `record_at` `record_at` int(11) NOT NULL AFTER `id`,
+    CHANGE `record_type` `record_type` char(1) COLLATE 'utf8_general_ci' NOT NULL AFTER `record_at`,
+    CHANGE `order_count` `paid_count` int(11) NOT NULL COMMENT '订单数量' AFTER `record_type`,
+    CHANGE `order_amount` `paid_total` int(11) NOT NULL COMMENT '订单合计' AFTER `paid_count`,
+    CHANGE `commission_count` `commission_count` int(11) NOT NULL AFTER `paid_total`,
+    CHANGE `commission_amount` `commission_total` int(11) NOT NULL COMMENT '佣金合计' AFTER `commission_count`,
+    ADD `order_count` int(11) NOT NULL AFTER `record_type`,
+    ADD `order_total` int(11) NOT NULL AFTER `order_count`,
+    ADD `register_count` int(11) NOT NULL AFTER `order_total`,
+    ADD `invite_count` int(11) NOT NULL AFTER `register_count`,
+    ADD `transfer_used_total` varchar(32) NOT NULL AFTER `invite_count`,
+    RENAME TO `v2_stat`;
+
+CREATE TABLE `v2_log` (
+                          `id` int(11) NOT NULL AUTO_INCREMENT,
+                          `title` varchar(255) NOT NULL,
+                          `level` varchar(11) DEFAULT NULL,
+                          `host` varchar(255) DEFAULT NULL,
+                          `uri` varchar(255) NOT NULL,
+                          `method` varchar(11) NOT NULL,
+                          `data` text,
+                          `ip` varchar(128) DEFAULT NULL,
+                          `context` text,
+                          `created_at` int(11) NOT NULL,
+                          `updated_at` int(11) NOT NULL,
+                          PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `v2_log`
+    CHANGE `title` `title` text COLLATE 'utf8mb4_general_ci' NOT NULL AFTER `id`;
+
+CREATE TABLE `v2_server_vless` (
+                                   `id` int(11) NOT NULL AUTO_INCREMENT,
+                                   `group_id` text NOT NULL,
+                                   `route_id` text,
+                                   `name` varchar(255) NOT NULL,
+                                   `parent_id` int(11) DEFAULT NULL,
+                                   `host` varchar(255) NOT NULL,
+                                   `port` int(11) NOT NULL,
+                                   `server_port` int(11) NOT NULL,
+                                   `tls` tinyint(1) NOT NULL,
+                                   `tls_settings` text,
+                                   `flow` varchar(11) DEFAULT NULL,
+                                   `network` varchar(11) NOT NULL,
+                                   `network_settings` text,
+                                   `tags` text,
+                                   `rate` varchar(11) NOT NULL,
+                                   `show` tinyint(1) NOT NULL DEFAULT '0',
+                                   `sort` int(11) DEFAULT NULL,
+                                   `created_at` int(11) NOT NULL,
+                                   `updated_at` int(11) NOT NULL,
+                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `v2_server_vless`
+    CHANGE `flow` `flow` varchar(64) COLLATE 'utf8mb4_general_ci' NULL AFTER `tls_settings`;
+
+ALTER TABLE `v2_plan`
+    ADD `daily_unit_price` int(11) NULL AFTER `capacity_limit`,
+ADD `transfer_unit_price` int(11) NULL AFTER `daily_unit_price`;
+
+ALTER TABLE `v2_order`
+DROP `surplus_order_ids`;
+
+ALTER TABLE `v2_server_hysteria`
+    ADD `ignore_client_bandwidth` tinyint(1) NOT NULL DEFAULT '0' AFTER `insecure`,
+ADD `obfs_type` varchar(11) NULL AFTER `ignore_client_bandwidth`;

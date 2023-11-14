@@ -50,7 +50,7 @@ class CheckCommission extends Command
         if ((int)config('v2board.commission_auto_check_enable', 1)) {
             Order::where('commission_status', 0)
                 ->where('invite_user_id', '!=', NULL)
-                ->whereNotIn('status', [0, 2])
+                ->where('status', 3)
                 ->where('updated_at', '<=', strtotime('-3 day', time()))
                 ->update([
                     'commission_status' => 1
@@ -80,15 +80,14 @@ class CheckCommission extends Command
 
     public function payHandle($inviteUserId, Order $order)
     {
+        $level = 3;
         if ((int)config('v2board.commission_distribution_enable', 0)) {
-            $level = 3;
             $commissionShareLevels = [
                 0 => (int)config('v2board.commission_distribution_l1'),
                 1 => (int)config('v2board.commission_distribution_l2'),
                 2 => (int)config('v2board.commission_distribution_l3')
             ];
         } else {
-            $level = 3;
             $commissionShareLevels = [
                 0 => 100
             ];

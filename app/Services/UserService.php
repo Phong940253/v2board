@@ -2,19 +2,103 @@
 
 namespace App\Services;
 
-use App\Jobs\ServerLogJob;
 use App\Jobs\StatServerJob;
 use App\Jobs\StatUserJob;
 use App\Jobs\TrafficFetchJob;
-use App\Models\InviteCode;
 use App\Models\Order;
-use App\Models\ServerV2ray;
-use App\Models\Ticket;
+use App\Models\Plan;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
 class UserService
 {
+    private function calcResetDayByMonthFirstDay()
+    {
+        $today = date('d');
+        $lastDay = date('d', strtotime('last day of +0 months'));
+        return $lastDay - $today;
+    }
+
+    private function calcResetDayByExpireDay(int $expiredAt)
+    {
+        $day = date('d', $expiredAt);
+        $today = date('d');
+        $lastDay = date('d', strtotime('last day of +0 months'));
+        if ((int)$day >= (int)$today && (int)$day >= (int)$lastDay) {
+            return $lastDay - $today;
+        }
+        if ((int)$day >= (int)$today) {
+            return $day - $today;
+        }
+
+        return $lastDay - $today + $day;
+    }
+
+    private function calcResetDayByYearFirstDay(): int
+    {
+        $nextYear = strtotime(date("Y-01-01", strtotime('+1 year')));
+        return (int)(($nextYear - time()) / 86400);
+    }
+
+    private function calcResetDayByYearExpiredAt(int $expiredAt): int
+    {
+        $md = date('m-d', $expiredAt);
+        $nowYear = strtotime(date("Y-{$md}"));
+        $nextYear = strtotime('+1 year', $nowYear);
+        if ($nowYear > time()) {
+            return (int)(($nowYear - time()) / 86400);
+        }
+        return (int)(($nextYear - time()) / 86400);
+    }
+
+    public function getResetDay(User $user)
+    {
+        if (!isset($user->plan)) {
+            $user->plan = Plan::find($user->plan_id);
+        }
+        if ($user->expired_at <= time() || $user->expired_at === NULL) return null;
+        // if reset method is not reset
+        if ($user->plan->reset_traffic_method === 2) return null;
+        switch (true) {
+            case ($user->plan->reset_traffic_method === NULL): {
+                $resetTrafficMethod = config('v2board.reset_traffic_method', 0);
+                switch ((int)$resetTrafficMethod) {
+                    // month first day
+                    case 0:
+                        return $this->calcResetDayByMonthFirstDay();
+                    // expire day
+                    case 1:
+                        return $this->calcResetDayByExpireDay($user->expired_at);
+                    // no action
+                    case 2:
+                        return null;
+                    // year first day
+                    case 3:
+                        return $this->calcResetDayByYearFirstDay();
+                    // year expire day
+                    case 4:
+                        return $this->calcResetDayByYearExpiredAt($user->expired_at);
+                }
+                break;
+            }
+            case ($user->plan->reset_traffic_method === 0): {
+                return $this->calcResetDayByMonthFirstDay();
+            }
+            case ($user->plan->reset_traffic_method === 1): {
+                return $this->calcResetDayByExpireDay($user->expired_at);
+            }
+            case ($user->plan->reset_traffic_method === 2): {
+                return null;
+            }
+            case ($user->plan->reset_traffic_method === 3): {
+                return $this->calcResetDayByYearFirstDay();
+            }
+            case ($user->plan->reset_traffic_method === 4): {
+                return $this->calcResetDayByYearExpiredAt($user->expired_at);
+            }
+        }
+        return null;
+    }
+
     public function isAvailable(User $user)
     {
         if (!$user->banned && $user->transfer_enable && ($user->expired_at > time() || $user->expired_at === NULL)) {
@@ -84,10 +168,19 @@ class UserService
         return true;
     }
 
-    public function trafficFetch(int $u, int $d, int $userId, object $server, string $protocol)
+    public function trafficFetch(array $server, string $protocol, array $data)
     {
-        TrafficFetchJob::dispatch($u, $d, $userId, $server, $protocol);
-        StatServerJob::dispatch($u, $d, $server, $protocol, 'd');
-        StatUserJob::dispatch($u, $d, $userId, $server, $protocol, 'd');
+        $statService = new StatisticalService();
+        $statService->setStartAt(strtotime(date('Y-m-d')));
+        $statService->setUserStats();
+        $statService->setServerStats();
+        foreach (array_keys($data) as $userId) {
+            $u = (int)$data[$userId][0] ?? 0;
+            $d = (int)$data[$userId][1] ?? 0;
+            if (!$u && !$d) continue;
+            TrafficFetchJob::dispatch($u, $d, $userId, $server, $protocol);
+            $statService->statServer($server['id'], $protocol, $u, $d);
+            $statService->statUser($server['rate'], $userId, $u, $d);
+        }
     }
 }
